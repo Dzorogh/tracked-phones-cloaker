@@ -313,7 +313,6 @@ class Service {
         cloaker.uncloak()
 
         item.wrapper.removeEventListener('mouseenter', handleHover)
-        item.wrapper.removeEventListener('click', handleClick)
       }
 
       const handleClick = (e) => {
@@ -323,7 +322,6 @@ class Service {
         cloaker.uncloak()
 
         item.wrapper.removeEventListener('mouseenter', handleHover)
-        item.wrapper.removeEventListener('click', handleClick)
 
         // setTimeout(() => {
         //   e.target.click()
@@ -332,6 +330,10 @@ class Service {
 
       item.wrapper.addEventListener('mouseenter', handleHover)
       item.wrapper.addEventListener('click', handleClick)
+
+      // TODO: Problem: Not working for copied html content.
+      // We need parse wrapped phones every time, compare to global nodes Set.
+      // Then if that node is not in array, unwrap it from non-working wrapper.
 
       // todo: wait for ct object appear
       // todo: replace phone with call tracking before hider.show() triggered
