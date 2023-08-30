@@ -1,0 +1,23 @@
+{
+  "name": "tracked-phones-cloaker",
+  "version": "1.0.0",
+  "source": "src/main.ts",
+  "main": "build/tracked-phones-cloaker.js",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "engines": {
+    "node": ">= 18"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "eslint": "^8.48.0",
+    "eslint-config-alloy": "^5.1.2",
+    "eslint-plugin-unicorn": "^48.0.1",
+    "parcel": "latest",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "watch": "parcel watch",
+    "build": "parcel build"
+  }
+}

@@ -1,0 +1,25 @@
+tracked-phone {
+    position: relative;
+}
+
+tracked-phone[cloaked] {
+    mask-image: linear-gradient(90deg, white 0%, white 20%, rgba(0, 0, 0, .1) 80%, rgba(0, 0, 0, .02) 90%);
+}
+
+tracked-phone[loading]:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(110deg, #fffc 5%, #fff0 20%, #fffc 80%);
+    background-size: 200% 100%;
+    animation: .7s shine linear infinite;
+}
+
+@keyframes shine {
+    to {
+        background-position-x: -200%;
+    }
+}

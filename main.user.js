@@ -35,12 +35,30 @@ class PluginDetector {
   }
 }
 
+class PhoneNumberItem {
+  wrapperNode;
+  linkNode;
+
+  constructor(wrapperNode, linkNode) {
+    this.wrapperNode = wrapperNode;
+    this.linkNode = linkNode;
+  }
+
+  getWrapperNode() {
+    return this.wrapperNode;
+  }
+
+  getLinkNode() {
+    return this.linkNode;
+  }
+}
+
 class PhoneNumbersParser {
   ruPhone = /((\+7|[7,8])\ ?(\d{10}|(\(?\d{3}\)?\ ?\d{3}[\-,\ ]?\d{2}[\-,\ ]?\d{2})))/igm;
   // ruPhone = /(^8|7|\+7)((\d{10})|(\s\(\d{3}\)\s\d{3}\s\d{2}\s\d{2}))/im;
   excludedTags = ['script', phoneWrapperTagName]
 
-  #rootNode = undefined
+  #rootNode;
 
   /**
    * @param {Node|Element} rootNode
@@ -162,10 +180,7 @@ class PhoneNumbersParser {
 
   /**
    * @param {Node[]} textNodes
-   * @return {{
-   *   link: Node,
-   *   wrapper: Node
-   * }[]}
+   * @return {PhoneNumberItem[]}
    */
   wrapPhones(textNodes) {
     const result = []
@@ -183,10 +198,12 @@ class PhoneNumbersParser {
         wrapperNode.textContent = textNode.textContent;
         parentNode.replaceChild(wrapperNode, textNode);
 
-        result.push({
-          link: parentNode,
-          wrapper: wrapperNode
-        });
+        result.push(
+          new PhoneNumberItem(
+            wrapperNode,
+            parentNode
+          )
+        );
       } else if (parentNode.closest('a') && parentNode.closest('a').getAttribute('href').startsWith('tel:')) {
         // Если выше по дереву есть ссылка, проверяем — телефонная ли она.
 
@@ -194,10 +211,12 @@ class PhoneNumbersParser {
         wrapperNode.textContent = textNode.textContent;
         parentNode.replaceChild(wrapperNode, textNode);
 
-        result.push({
-          link: parentNode.closest('a'),
-          wrapper: wrapperNode
-        });
+        result.push(
+          new PhoneNumberItem(
+            wrapperNode,
+            parentNode.closest('a')
+          )
+        );
       } else {
         // Если это просто номер в тексте
 
@@ -209,10 +228,10 @@ class PhoneNumbersParser {
           linkNode.textContent = null;
           linkNode.appendChild(wrapperNode);
 
-          return {
-            link: linkNode,
-            wrapper: wrapperNode
-          }
+          return new PhoneNumberItem(
+            wrapperNode,
+            linkNode
+          )
         }));
       }
     }
@@ -299,20 +318,23 @@ class Service {
     console.log(`Parsing phones take ${Math.round(t1 - t0)} milliseconds.`);
 
     phones.forEach((item) => {
-      const cloaker = new PhoneNumbersCloaker(item.wrapper);
+      const wrapper = item.getWrapperNode();
+      const link = item.getLinkNode();
+
+      const cloaker = new PhoneNumbersCloaker(wrapper);
       cloaker.cloak();
 
       // Format phones
-      const formatter = new PhoneNumbersFormatter(item.wrapper.textContent)
-      formatter.formatLinkTel(item.link)
-      formatter.formatText(item.wrapper)
+      const formatter = new PhoneNumbersFormatter(wrapper.textContent)
+      formatter.formatLinkTel(link)
+      formatter.formatText(wrapper)
 
       const handleHover = () => {
         console.log('hover');
 
         cloaker.uncloak()
 
-        item.wrapper.removeEventListener('mouseenter', handleHover)
+        wrapper.removeEventListener('mouseenter', handleHover)
       }
 
       const handleClick = (e) => {
@@ -321,15 +343,15 @@ class Service {
         e.preventDefault();
         cloaker.uncloak()
 
-        item.wrapper.removeEventListener('mouseenter', handleHover)
+        wrapper.removeEventListener('mouseenter', handleHover)
 
         // setTimeout(() => {
         //   e.target.click()
         // }, 100)
       }
 
-      item.wrapper.addEventListener('mouseenter', handleHover)
-      item.wrapper.addEventListener('click', handleClick)
+      wrapper.addEventListener('mouseenter', handleHover)
+      wrapper.addEventListener('click', handleClick)
 
       // TODO: Problem: Not working for copied html content.
       // We need parse wrapped phones every time, compare to global nodes Set.
