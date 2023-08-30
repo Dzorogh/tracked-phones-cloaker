@@ -130,12 +130,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-!/.parcel-cache/
-!/.parcel-cache/
-/.parcel-cache/1ba6b0788801943b
-/.parcel-cache/47cb0478f3aaec0f
-/.parcel-cache/2872ead3c955face
-/.parcel-cache/b66df9c5520be78c
-/.parcel-cache/data.mdb
-/.parcel-cache/fbccdf9e4afdd61a.txt
-/.parcel-cache/lock.mdb
+build

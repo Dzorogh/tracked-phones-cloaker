@@ -13,6 +13,19 @@ export class PhoneNumbersFormatter {
         return this.phone.replace(/\D/g, "")
     }
 
+    public getFormattedTel() {
+        const phoneDigits = this.getDigits().slice(-10)
+        let startsWith = ''
+
+        if (phoneDigits.startsWith('800')) {
+            startsWith = '8'
+        } else {
+            startsWith = '+7'
+        }
+
+        return phoneDigits.replace(/(\d{3})(\d{3})(\d{2})(\d{2})$/g, `${startsWith}$1$2$3$4`)
+    }
+
     // formatLinkTel(element: HTMLElement) {
     //     element.setAttribute('href', 'tel:' + this.getDigits())
     // }

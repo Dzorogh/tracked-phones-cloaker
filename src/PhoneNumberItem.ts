@@ -81,16 +81,28 @@ export class PhoneNumberItem {
         return this.getLinkNode().getAttribute('href')
     }
 
-    private formatTel() {
-        const formatter = new PhoneNumbersFormatter(this.getText())
+    private getFormattedTel(phone: string) {
+        const formatter = new PhoneNumbersFormatter(phone)
 
-        this.setTel(formatter.getDigits())
+        return formatter.getFormattedTel()
+    }
+
+    private getFormattedText(phone: string) {
+        const formatter = new PhoneNumbersFormatter(phone)
+
+        return formatter.getFormattedPhone()
+    }
+
+    private formatTel() {
+        const formatted = this.getFormattedTel(this.getText())
+
+        this.setTel(formatted)
     }
 
     private formatText() {
-        const formatter = new PhoneNumbersFormatter(this.getText())
+        const formatted = this.getFormattedText(this.getText())
 
-        this.setText(formatter.getFormattedPhone())
+        this.setText(formatted)
     }
 
     private loadingStart() {
@@ -104,10 +116,8 @@ export class PhoneNumberItem {
     }
 
     private setPhone(phone: string) {
-        const formatter = new PhoneNumbersFormatter(phone)
-
-        this.setText(formatter.getFormattedPhone())
-        this.setTel(formatter.getDigits())
+        this.setText(this.getFormattedText(phone))
+        this.setTel(this.getFormattedTel(phone))
     }
 
     private async onInteractionTrigger() {
