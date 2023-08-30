@@ -1,15 +1,6 @@
 function $parcel$interopDefault(a) {
   return a && a.__esModule ? a.default : a;
 }
-// ==UserScript==
-// @name        calltouch-enhanced
-// @namespace   Violentmonkey Scripts
-// @match       https://globaldrive.ru/*
-// @grant       none
-// @version     1.0
-// @author      -
-// @description 25/08/2023, 16:03:34
-// ==/UserScript==
 const $8d78f77e9e38adc1$export$c4db86264c92e870 = "tracked-phone";
 class $8d78f77e9e38adc1$export$6a3d66fba6157564 extends HTMLElement {
 }
@@ -350,6 +341,9 @@ class $7fb63fd7457b8c3d$export$93b26a0b8215996b {
 
 
 class $17398cbcfede397b$export$526382f42139a64a {
+    constructor(ctId){
+        this.id = ctId;
+    }
     async whenLoaded() {
         const detector = new (0, $7fb63fd7457b8c3d$export$93b26a0b8215996b)();
         this.ct = await detector.awaitForWindowObject("ct");
@@ -357,7 +351,7 @@ class $17398cbcfede397b$export$526382f42139a64a {
     }
     dynamicReplacement(subPoolNamesContains) {
         return new Promise((resolve)=>{
-            this.ct("dq3stqwe", "dynamic_replacement", {
+            this.ct(this.id, "dynamic_replacement", {
                 callback: (success, data)=>{
                     resolve(data);
                 },
@@ -369,11 +363,10 @@ class $17398cbcfede397b$export$526382f42139a64a {
 
 
 class $bc38cf49747a5a8a$export$8b2af884909d32a5 {
-    constructor(phonesMap, wrappersSet){
-        this.calltouchService = new (0, $17398cbcfede397b$export$526382f42139a64a)();
+    constructor(phonesMap, wrappersSet, calltouchId){
         this.phonesMap = phonesMap;
         this.wrappersSet = wrappersSet;
-        this.calltouchService = new (0, $17398cbcfede397b$export$526382f42139a64a)();
+        this.calltouchService = new (0, $17398cbcfede397b$export$526382f42139a64a)(calltouchId);
     }
     processAllPhones() {
         const t0 = performance.now();
@@ -409,31 +402,29 @@ class $bc38cf49747a5a8a$export$8b2af884909d32a5 {
 
 
 // @ts-ignore
-var $51c439a9a018474d$exports = {};
-$51c439a9a018474d$exports = "tracked-phone {\n  position: relative;\n}\n\ntracked-phone[cloaked] {\n  -webkit-mask-image: linear-gradient(90deg, #fff 0% 20%, #0000001a 80%, #00000005 90%);\n  mask-image: linear-gradient(90deg, #fff 0% 20%, #0000001a 80%, #00000005 90%);\n}\n\ntracked-phone[loading]:after {\n  content: \"\";\n  background: linear-gradient(110deg, #fffc 5%, #fff0 20%, #fffc 80%) 0 0 / 200% 100%;\n  animation: .7s linear infinite shine;\n  position: absolute;\n  inset: 0;\n}\n\n@keyframes shine {\n  to {\n    background-position-x: -200%;\n  }\n}\n\n";
+var $a6249d772405f6f2$exports = {};
+$a6249d772405f6f2$exports = "tracked-phone {\n  position: relative;\n}\n\ntracked-phone[cloaked] {\n  -webkit-mask-image: linear-gradient(90deg, #fff 0% 20%, #0000001a 80%, #00000005 90%);\n  mask-image: linear-gradient(90deg, #fff 0% 20%, #0000001a 80%, #00000005 90%);\n}\n\ntracked-phone[loading]:after {\n  content: \"\";\n  background: linear-gradient(110deg, #fffc 5%, #fff0 20%, #fffc 80%) 0 0 / 200% 100%;\n  animation: .7s linear infinite shine;\n  position: absolute;\n  inset: 0;\n}\n\n@keyframes shine {\n  to {\n    background-position-x: -200%;\n  }\n}\n\n";
 
 
 function $fbd706b8903f9b09$export$e5c45ca1e113bfed() {
     const styleElement = document.createElement("style");
-    styleElement.textContent = (0, (/*@__PURE__*/$parcel$interopDefault($51c439a9a018474d$exports)));
+    styleElement.textContent = (0, (/*@__PURE__*/$parcel$interopDefault($a6249d772405f6f2$exports)));
     document.head.appendChild(styleElement);
 }
 
 
-// import {setupStyle} from "./setupStyle";
-console.log("Monkey Script Loaded");
-(async function() {
-    (0, $8d78f77e9e38adc1$export$feb348eaf4031ce3)();
-    (0, $fbd706b8903f9b09$export$e5c45ca1e113bfed)();
-    const phonesMap = new Map();
-    const wrappersSet = new Set();
-    const service = new (0, $bc38cf49747a5a8a$export$8b2af884909d32a5)(phonesMap, wrappersSet);
-    service.processAllPhones();
-    setInterval(()=>service.processAllPhones(), 1000);
-    console.log(phonesMap, wrappersSet);
-// TODO: Observe DOM, replace phones in each changed node
-// observer.observe(document.body, {childList: true, subtree: true});
-})();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class $349d142047fd56ee$var$TrackedPhonesCloaker {
+    constructor({ calltouchId: calltouchId }){
+        (0, $8d78f77e9e38adc1$export$feb348eaf4031ce3)();
+        (0, $fbd706b8903f9b09$export$e5c45ca1e113bfed)();
+        const phonesMap = new Map();
+        const wrappersSet = new Set();
+        const service = new (0, $bc38cf49747a5a8a$export$8b2af884909d32a5)(phonesMap, wrappersSet, calltouchId);
+        service.processAllPhones();
+        setInterval(()=>service.processAllPhones(), 1000);
+    }
+}
 
 
-//# sourceMappingURL=calltouch-enhanced.user.js.map
+//# sourceMappingURL=tracked-phones-cloaker.js.map
