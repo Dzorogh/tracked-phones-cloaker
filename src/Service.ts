@@ -28,17 +28,17 @@ export class Service {
             })
         })
 
-        const t1 = performance.now()
-        console.log(`Parsing phones take ${Math.round(t1 - t0)} milliseconds.`)
+        // const t1 = performance.now()
+        // console.log(`Parsing phones take ${Math.round(t1 - t0)} milliseconds.`)
 
-        const t2 = performance.now()
-        console.log(`Formatting phones take ${Math.round(t2 - t1)} milliseconds.`)
+        // const t2 = performance.now()
+        // console.log(`Formatting phones take ${Math.round(t2 - t1)} milliseconds.`)
 
         return phones
     }
 
     public async replacePhone(phoneItem: PhoneNumberItem) {
-        console.log('Replacing')
+        // console.log('Replacing')
 
         await this.calltouchService
             .whenLoaded()

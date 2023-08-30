@@ -64,7 +64,7 @@ export class PhoneNumbersParser {
                     // console.log('already wrapped correctly');
                     continue
                 } else {
-                    console.log('Found broken Phone Wrapper!', parentNode)
+                    // console.log('Found broken Phone Wrapper!', parentNode)
 
                     const result = this.unwrapPhone(parentNode)
 
