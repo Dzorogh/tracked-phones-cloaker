@@ -1,6 +1,6 @@
 {
   "name": "tracked-phones-cloaker",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "source": "src/main.ts",
   "main": "build/tracked-phones-cloaker.js",
   "browserslist": "> 0.5%, last 2 versions, not dead",
@@ -19,6 +19,6 @@
   "scripts": {
     "watch": "parcel watch",
     "build": "parcel build",
-    "pub": "npm version patch --force && npm publish"
+    "pub": "npm version patch --force && npm run build && npm publish"
   }
 }
