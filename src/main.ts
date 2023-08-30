@@ -19,3 +19,5 @@ class TrackedPhonesCloaker {
         setInterval(() => service.processAllPhones(), 1000)
     }
 }
+
+window['TrackedPhonesCloaker'] = TrackedPhonesCloaker
