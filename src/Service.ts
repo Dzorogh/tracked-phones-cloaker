@@ -1,7 +1,7 @@
 import {PhoneNumbersParser} from "./PhoneNumberParser"
 import type {PhonesMap, WrappersSet} from "./types"
 import type {PhoneNumberItem} from "./PhoneNumberItem"
-import {CalltouchService} from "./CalltouchService"
+import {CalltouchService} from "./CalltrackingServices/CalltouchService"
 
 export class Service {
     private readonly wrappersSet: WrappersSet
@@ -15,7 +15,7 @@ export class Service {
     }
 
     public processAllPhones() {
-        const t0 = performance.now()
+        // const t0 = performance.now()
 
         const parser = new PhoneNumbersParser(document.body, this.phonesMap, this.wrappersSet)
         const phones = parser.parseAllPhonesAsNodes()
@@ -40,18 +40,21 @@ export class Service {
     public async replacePhone(phoneItem: PhoneNumberItem) {
         // console.log('Replacing')
 
+        const timeout = 1000
+
         await this.calltouchService
-            .whenLoaded()
+            .whenLoaded(timeout)
             .then(async (service) => {
-                const data = await service.dynamicReplacement([phoneItem.getDigits()])
+                // const data = await service.dynamicReplacement([phoneItem.getDigits()])
 
                 // this.calltouchService.whenLoaded().then(async (service) => {
                 //     console.log(service.calltrackingParams())
                 // })
 
-                const siblings = this.phonesMap.get(phoneItem.getInitialDigits())
+                const trackedPhone = (await service.getReplacementPhone(phoneItem.getDigits()))
+                    ?? phoneItem.getDigits()
 
-                const trackedPhone = data && data[0] ? data[0].phoneNumber : phoneItem.getDigits()
+                const siblings = this.phonesMap.get(phoneItem.getInitialDigits())
 
                 if (siblings) {
                     for (const sibling of siblings) {
