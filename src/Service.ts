@@ -11,7 +11,7 @@ export class Service {
     public constructor(phonesMap: PhonesMap, wrappersSet: WrappersSet, calltouchId: string) {
         this.phonesMap = phonesMap
         this.wrappersSet = wrappersSet
-        this.calltouchService = new CalltouchService(calltouchId)
+        this.calltouchService = new CalltouchService(calltouchId, 1000)
     }
 
     public processAllPhones() {
@@ -40,11 +40,10 @@ export class Service {
     public async replacePhone(phoneItem: PhoneNumberItem) {
         // console.log('Replacing')
 
-        const timeout = 1000
-
         await this.calltouchService
-            .whenLoaded(timeout)
+            .whenLoaded()
             .then(async (service) => {
+                console.log('start replacing')
                 // const data = await service.dynamicReplacement([phoneItem.getDigits()])
 
                 // this.calltouchService.whenLoaded().then(async (service) => {

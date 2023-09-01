@@ -4,22 +4,26 @@ import type {CTPool} from "../types"
 
 export class CalltouchService implements CalltrackingServiceInterface {
     private ct: any
+    private readonly timeout: number
     private readonly id: string
 
-    public constructor(ctId: string) {
+    public constructor(ctId: string, timeout: number) {
         this.id = ctId
+        this.timeout = timeout
     }
 
-    public async whenLoaded(timeout) {
+    public async whenLoaded() {
         const detector = new PluginDetector()
 
         const timeouter = new Promise((resolve) => {
-            setTimeout(() => resolve(false), timeout)
+            setTimeout(() => resolve(false), this.timeout)
         })
 
         const waiter = detector.awaitForWindowObject('ct')
 
         const result = await Promise.race([timeouter, waiter])
+
+        console.log('ct finished loading')
 
         if (result) {
             this.ct = result
@@ -31,7 +35,13 @@ export class CalltouchService implements CalltrackingServiceInterface {
     }
 
     public async getReplacementPhone(searchablePhone: string) {
-        const data = await this.dynamicReplacement([searchablePhone])
+        const result = this.dynamicReplacement([searchablePhone])
+
+        const timeouter = new Promise((resolve) => {
+            setTimeout(() => resolve(undefined), this.timeout)
+        })
+
+        const data = await Promise.race([timeouter, result])
 
         return data && data[0] ? data[0].phoneNumber : undefined
     }
