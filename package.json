@@ -23,5 +23,5 @@
     "watch": "parcel watch",
     "build": "parcel build",
     "pub": "npm version patch --force && npm run build && npm publish"
-  },
+  }
 }
