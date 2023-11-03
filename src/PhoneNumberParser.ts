@@ -3,7 +3,7 @@ import {PhoneNumberItem} from "./PhoneNumberItem"
 import type {PhonesMap, WrappersSet} from "./types"
 
 export class PhoneNumbersParser {
-    private ruPhone = /((\+7|[,78]) ?(\d{10}|(\(?\d{3}\)? ?\d{3}(?:[ ,\-]?\d{2}){2})))/gim
+    private ruPhone = /(?<!\d)((\+7|[,78]) ?(\d{10}|(\(?\d{3}\)? ?\d{3}(?:[ ,\-]?\d{2}){2})))(?!\d)/gim
     // ruPhone = /(^8|7|\+7)((\d{10})|(\s\(\d{3}\)\s\d{3}\s\d{2}\s\d{2}))/im;
     private excludedTags = ['script']
 

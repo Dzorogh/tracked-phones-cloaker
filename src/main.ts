@@ -1,7 +1,7 @@
 import {setupPhoneWrapper} from "./PhoneWrapper"
 import {Service} from "./Service"
 import {setupStyle} from "./setupStyle"
-import type {PhonesMap, WrappersSet} from "./types";
+import type {PhonesMap, WrappersSet} from "./types"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class TrackedPhonesCloaker {
