@@ -140,3 +140,5 @@ build
 /.parcel-cache/fbccdf9e4afdd61a.txt
 /.parcel-cache/lock.mdb
 /.parcel-cache/
+
+.idea
