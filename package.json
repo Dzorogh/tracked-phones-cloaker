@@ -1,6 +1,6 @@
 {
   "name": "tracked-phones-cloaker",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "source": [
     "src/main.ts",
     "src/index.html"
@@ -21,6 +21,7 @@
   },
   "scripts": {
     "watch": "parcel watch",
+    "serve": "parcel src/index.html",
     "build": "parcel build",
     "pub": "npm version patch --force && npm run build && npm publish"
   }
