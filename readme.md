@@ -6,6 +6,9 @@ Also makes formating and tel: links for every phone numbers in text.
 
 <img width="287" alt="image" src="https://github.com/Dzorogh/tracked-phones-cloaker/assets/1428839/a7fa08b6-9b6f-4763-90f2-c9c07ed48fbf">
 
+## Demo
+
+https://tracked-phones-cloaker.gddev.ru/ 
 
 ## How to use
 
