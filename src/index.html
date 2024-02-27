@@ -80,16 +80,23 @@
     <jdiv>
       8 800 350-29-75
     </jdiv>
-    Исключение для JivoSite
+    Исключение для Jiv
   </div>
 </div>
 
-<script src="index.ts" type="module"></script>
+<script src="tracked-phones-cloaker.ts" type="module"></script>
 <script>
+  // window.addEventListener('DOMContentLoaded', function () {
+  //   new TrackedPhonesCloaker({
+  //       calltracking: 'avantelecom',
+  //       metrikaCounterId: 96588552,
+  //   })
+  // })
+
   window.addEventListener('DOMContentLoaded', function () {
-    new Index({
-        calltracking: 'avantelecom',
-        metrikaCounterId: 96588552,
+    new TrackedPhonesCloaker({
+        calltracking: 'calltouch',
+        calltouchId: 'dq3stqwe'
     })
   })
 </script>

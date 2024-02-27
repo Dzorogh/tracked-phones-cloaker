@@ -1,10 +1,10 @@
-import {setupPhoneWrapper} from "./PhoneWrapper"
-import {Processor} from "./Processor"
-import {setupStyle} from "./setupStyle"
-import type { PhonesMap, WrappersSet, Config } from "./types"
+import {setupPhoneWrapper} from "./lib/PhoneWrapper"
+import {Processor} from "./lib/Processor"
+import {setupStyle} from "./lib/setupStyle"
+import type { PhonesMap, WrappersSet, Config } from "./lib/types"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-class Index {
+class TrackedPhonesCloaker {
     public constructor(config: Config) {
         setupPhoneWrapper()
         setupStyle()
@@ -20,4 +20,4 @@ class Index {
     }
 }
 
-window['Index'] = Index
+window['TrackedPhonesCloaker'] = TrackedPhonesCloaker
