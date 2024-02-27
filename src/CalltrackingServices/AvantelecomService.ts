@@ -1,6 +1,5 @@
 import type {CalltrackingServiceInterface} from "./CalltrackingServiceInterface"
 import {PluginDetector} from "../PluginDetector"
-import type {CTPool} from "../types"
 
 export class AvantelecomService implements CalltrackingServiceInterface {
     private metrika: any

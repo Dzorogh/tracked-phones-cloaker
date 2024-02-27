@@ -1,7 +1,7 @@
 import {setupPhoneWrapper} from "./PhoneWrapper"
 import {Processor} from "./Processor"
 import {setupStyle} from "./setupStyle"
-import type { PhonesMap, WrappersSet, Calltracking, Config } from "./types"
+import type { PhonesMap, WrappersSet, Config } from "./types"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class Index {

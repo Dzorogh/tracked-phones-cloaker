@@ -1,6 +1,6 @@
 import { PhoneNumbersParser } from "./PhoneNumberParser"
 import type { Config, PhonesMap, WrappersSet } from "./types"
-import { Calltracking } from "./types";
+import { Calltracking } from "./types"
 import type { PhoneNumberItem } from "./PhoneNumberItem"
 import { CalltouchService } from "./CalltrackingServices/CalltouchService"
 import type { CalltrackingServiceInterface } from "./CalltrackingServices/CalltrackingServiceInterface"
