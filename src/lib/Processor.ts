@@ -7,8 +7,7 @@ import type { CalltrackingServiceInterface } from "./CalltrackingServices/Calltr
 import { AvantelecomService } from "./CalltrackingServices/AvantelecomService"
 
 export class Processor {
-    public timeout = 1000
-
+    public timeout = 4000
 
     private readonly wrappersSet: WrappersSet
     private readonly phonesMap: PhonesMap
@@ -26,11 +25,13 @@ export class Processor {
         if (config.calltracking === Calltracking.AVANTTELECOM) {
             this.calltrackingService = new AvantelecomService(config.metrikaCounterId)
         }
+
+        if (!this.calltrackingService) {
+            console.error('No calltracking service selected')
+        }
     }
 
     public processAllPhones() {
-        // const t0 = performance.now()
-
         const parser = new PhoneNumbersParser(document.body, this.phonesMap, this.wrappersSet)
         const phones = parser.parseAllPhonesAsNodes()
 
@@ -42,12 +43,6 @@ export class Processor {
             })
         })
 
-        // const t1 = performance.now()
-        // console.log(`Parsing phones take ${Math.round(t1 - t0)} milliseconds.`)
-
-        // const t2 = performance.now()
-        // console.log(`Formatting phones take ${Math.round(t2 - t1)} milliseconds.`)
-
         return phones
     }
 
@@ -57,16 +52,19 @@ export class Processor {
         await this.calltrackingService
             .whenLoaded(this.timeout)
             .then(async (service) => {
-                console.log('start replacing')
+                console.log('Start replacing')
 
-                const trackedPhone = (await service.getReplacementPhone(phoneItem.getDigits(), this.timeout))
-                    ?? phoneItem.getDigits()
+                let replacementPhone = await service.getReplacementPhone(phoneItem.getDigits(), this.timeout)
+
+                console.log('Replacement Phone', replacementPhone)
+
+                replacementPhone = replacementPhone ?? phoneItem.getDigits()
 
                 const siblings = this.phonesMap.get(phoneItem.getInitialDigits())
 
                 if (siblings) {
                     for (const sibling of siblings) {
-                        sibling.revealPhone(trackedPhone)
+                        sibling.revealPhone(replacementPhone)
                     }
                 }
             })

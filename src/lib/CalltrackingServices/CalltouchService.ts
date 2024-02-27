@@ -21,7 +21,7 @@ export class CalltouchService implements CalltrackingServiceInterface {
 
         const result = await Promise.race([timeouter, waiter])
 
-        console.log('ct finished loading')
+        console.log('CT finished loading', result)
 
         if (result) {
             this.ct = result
@@ -33,29 +33,38 @@ export class CalltouchService implements CalltrackingServiceInterface {
     }
 
     public async getReplacementPhone(searchablePhone: string, timeout: number) {
-        const result = this.dynamicReplacement([searchablePhone])
+        if (!this.ct) {
+            console.error('Calltouch not loaded')
+            return null
+        }
 
-        const timeouter = new Promise((resolve) => {
-            setTimeout(() => resolve(undefined), timeout)
+        const replacementPhone = this.dynamicReplacement([searchablePhone]) as unknown as string
+
+        const timeouter = new Promise<null>((resolve) => {
+            setTimeout(() => resolve(null), timeout)
         })
 
-        const data = await Promise.race([timeouter, result])
+        const result = await Promise.race([timeouter, replacementPhone])
 
-        return data && data[0] ? data[0].phoneNumber : undefined
+        console.log('Race result', result)
+
+        return result ?? null
     }
 
     private dynamicReplacement(subPoolNamesContains: string[]) {
         return new Promise((resolve) => {
-            if (!this.ct) {
-                resolve(undefined)
-            } else {
-                this.ct(this.id, 'dynamic_replacement', {
-                    callback: (success: boolean, data: CTPool[]) => {
-                        resolve(data)
-                    },
-                    subPoolNamesContains
-                })
-            }
+            this.ct(this.id, 'dynamic_replacement', {
+                callback: (success: boolean, data: CTPool[]) => {
+                    if (data && data[0]) {
+                        const newPhoneNumber = data[0].phoneNumber as string
+                        return resolve(newPhoneNumber)
+                    } else {
+                        console.error('Incorrect response from Calltouch')
+                        return resolve(null)
+                    }
+                },
+                subPoolNamesContains
+            })
         })
     }
 }
