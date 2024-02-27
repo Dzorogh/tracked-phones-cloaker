@@ -1,10 +1,10 @@
 {
   "name": "tracked-phones-cloaker",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "main": "dist/global/tracked-phones-cloaker.js",
   "targets": {
     "global": {
-      "source": "src/tracked-phones-cloaker.ts.ts",
+      "source": "src/tracked-phones-cloaker.ts",
       "outputFormat": "global"
     },
     "demo": {
