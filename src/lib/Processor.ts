@@ -7,7 +7,7 @@ import type { CalltrackingServiceInterface } from "./CalltrackingServices/Calltr
 import { AvantelecomService } from "./CalltrackingServices/AvantelecomService"
 
 export class Processor {
-    public timeout = 4000
+    public timeout = 1000
 
     private readonly wrappersSet: WrappersSet
     private readonly phonesMap: PhonesMap
