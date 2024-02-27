@@ -1,6 +1,6 @@
 {
   "name": "tracked-phones-cloaker",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "main": "dist/global/tracked-phones-cloaker.js",
   "targets": {
     "global": {
