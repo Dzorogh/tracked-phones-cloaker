@@ -1,17 +1,31 @@
-import {PhoneNumbersParser} from "./PhoneNumberParser"
-import type {PhonesMap, WrappersSet} from "./types"
-import type {PhoneNumberItem} from "./PhoneNumberItem"
-import {CalltouchService} from "./CalltrackingServices/CalltouchService"
+import { PhoneNumbersParser } from "./PhoneNumberParser"
+import type { Config, PhonesMap, WrappersSet } from "./types"
+import { Calltracking } from "./types";
+import type { PhoneNumberItem } from "./PhoneNumberItem"
+import { CalltouchService } from "./CalltrackingServices/CalltouchService"
+import type { CalltrackingServiceInterface } from "./CalltrackingServices/CalltrackingServiceInterface"
+import { AvantelecomService } from "./CalltrackingServices/AvantelecomService"
 
-export class Service {
+export class Processor {
+    public timeout = 1000
+
+
     private readonly wrappersSet: WrappersSet
     private readonly phonesMap: PhonesMap
-    private calltouchService: CalltouchService
+    private calltrackingService: CalltrackingServiceInterface
 
-    public constructor(phonesMap: PhonesMap, wrappersSet: WrappersSet, calltouchId: string) {
+
+    public constructor(phonesMap: PhonesMap, wrappersSet: WrappersSet, config: Config) {
         this.phonesMap = phonesMap
         this.wrappersSet = wrappersSet
-        this.calltouchService = new CalltouchService(calltouchId, 1000)
+
+        if (config.calltracking === Calltracking.CALLTOUCH) {
+            this.calltrackingService = new CalltouchService(config.calltouchId)
+        }
+
+        if (config.calltracking === Calltracking.AVANTTELECOM) {
+            this.calltrackingService = new AvantelecomService(config.metrikaCounterId)
+        }
     }
 
     public processAllPhones() {
@@ -40,17 +54,12 @@ export class Service {
     public async replacePhone(phoneItem: PhoneNumberItem) {
         // console.log('Replacing')
 
-        await this.calltouchService
-            .whenLoaded()
+        await this.calltrackingService
+            .whenLoaded(this.timeout)
             .then(async (service) => {
                 console.log('start replacing')
-                // const data = await service.dynamicReplacement([phoneItem.getDigits()])
 
-                // this.calltouchService.whenLoaded().then(async (service) => {
-                //     console.log(service.calltrackingParams())
-                // })
-
-                const trackedPhone = (await service.getReplacementPhone(phoneItem.getDigits()))
+                const trackedPhone = (await service.getReplacementPhone(phoneItem.getDigits(), this.timeout))
                     ?? phoneItem.getDigits()
 
                 const siblings = this.phonesMap.get(phoneItem.getInitialDigits())
