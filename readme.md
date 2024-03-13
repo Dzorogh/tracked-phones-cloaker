@@ -12,9 +12,19 @@ https://tracked-phones-cloaker.gddev.ru/
 
 ## How to use
 
+Create tag in Google Tag Manager with this code.
+
 ```html
-<script src="https://unpkg.com/tracked-phones-cloaker@1.0.17/dist/global/tracked-phones-cloaker.js"></script>
+<script src="https://unpkg.com/tracked-phones-cloaker@1.0.26/dist/global/tracked-phones-cloaker.js"></script>
 <script>
-  new Index({calltouchId : 'dq3stqwe'})
+  new TrackedPhonesCloaker({
+    // For Avant
+    metrikaCounterId: string,
+    calltracking: 'avantelecom'
+
+    // Or for Calltouch
+    calltouchId: string,
+    calltracking: 'calltouch'
+  })
 </script>
 ```
